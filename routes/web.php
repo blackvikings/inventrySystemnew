@@ -15,15 +15,20 @@ use App\Http\Controllers\Admin\UserController;
 |
 */
 
+Route::get('/', function(){
+	return redirect()->route('login');
+});
 
 Auth::routes();
-Route::group(['middleware' => ['auth']], function(){
-	Route::get('/', function () {
-    	return view('admin.dashboard');
+Route::group(['prefix' => 'admin'], function(){
+	Route::group(['middleware' => ['auth']], function(){
+		Route::get('/', function () {
+	    	return view('admin.dashboard');
+		});
+		Route::resource('categories', CategoryController::class);
+		Route::resource('users', UserController::class);
+		Route::get('/home', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
 	});
-	Route::resource('categories', CategoryController::class);
-	Route::resource('users', UserController::class);
-	Route::get('/home', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
 });
 
 

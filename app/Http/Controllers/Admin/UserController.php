@@ -19,8 +19,11 @@ class UserController extends Controller
             $data = User::all();
             return Datatables::of($data)->addIndexColumn()->addColumn('action', function($row){
                         $btn = '<a href="'.route('users.edit').'" class="btn btn-dark btn-icon-text" > Edit <i class="mdi mdi-file-check btn-icon-append"></i> </a>';
-                          
-                    });
+                        
+                        return $btn;   
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
         }
         return view('admin.users.index');
     }

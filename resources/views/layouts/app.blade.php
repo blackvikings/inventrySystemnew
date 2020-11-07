@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -20,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('public/assets/css/demo_2/style.css') }}" />
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('public/assets/images/favicon.png') }}" />
+    @stack('css')
   </head>
   <body>
     <div class="container-scroller">
@@ -62,8 +65,13 @@
                     <a class="dropdown-item" href="#">
                       <i class="mdi mdi-cached mr-2 text-success"></i> Activity Log </a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">
+
+                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
                       <i class="mdi mdi-logout mr-2 text-primary"></i> Signout </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                        @csrf
+                    </form>
                   </div>
                 </li>
               </ul>
@@ -232,5 +240,7 @@
     <!-- Custom js for this page -->
     <script src="{{ asset('public/assets/js/dashboard.js') }}"></script>
     <!-- End custom js for this page -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.js"></script>
+    @stack('scripts')
   </body>
 </html>
