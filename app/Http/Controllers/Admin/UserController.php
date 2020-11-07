@@ -13,16 +13,14 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if($request->ajax()) {
             $data = User::all();
-            return Datatables::of($data)
-                    ->addIndexColumn()
-                    ->addColumn('action', function($row)(
-                        
+            return Datatables::of($data)->addIndexColumn()->addColumn('action', function($row){
+                        $btn = '<a href="'.route('users.edit').'" class="btn btn-dark btn-icon-text" > Edit <i class="mdi mdi-file-check btn-icon-append"></i> </a>';
                           
-                    ))
+                    });
         }
         return view('admin.users.index');
     }
