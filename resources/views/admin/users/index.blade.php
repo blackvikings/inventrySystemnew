@@ -24,16 +24,17 @@
                 <h4 class="card-title">All Users</h4>
                 <div class="row">
                   <div class="col-12">
-                    <div class="table-responsive">
-                      <table id="user-table" class="table">
+                    <div class="table-responsive" style="overflow-x:auto;">
+                      <table id="user-table" class="table data-table" style="width: 100%;">
                         <thead>
                           <tr>
                             <th>Name</th>
                             <th>Email</th>
-                            <th>Role</th>
                             <th>Action</th>
                           </tr>
                         </thead>
+                        <tbody>
+                        </tbody>
                       </table>
                     </div>
                   </div>
@@ -57,4 +58,21 @@
 @push('scripts')
 	<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 	<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+    
+    var table = $('.data-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: "{{ url('admin/users') }}",
+        columns: [
+            // {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+            {data: 'name', name: 'name'},
+            {data: 'email', name: 'email'},
+            {data: 'action', name: 'action', orderable: false, searchable: false},
+        ]
+    });
+    
+  });
+  </script>
 @endpush

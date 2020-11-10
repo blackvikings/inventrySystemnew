@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Models\User;
+use App\Models\User;
+use Datatables;
+use Spatie\Permission\Models\Role;
+use DB;
+use Hash;
 
 class UserController extends Controller
 {
@@ -18,7 +22,7 @@ class UserController extends Controller
         if($request->ajax()) {
             $data = User::all();
             return Datatables::of($data)->addIndexColumn()->addColumn('action', function($row){
-                        $btn = '<a href="'.route('users.edit').'" class="btn btn-dark btn-icon-text" > Edit <i class="mdi mdi-file-check btn-icon-append"></i> </a>';
+                        $btn = '<a href="'.url('admin/users/edit').'" class="btn btn-dark btn-icon-text" > Edit <i class="mdi mdi-file-check btn-icon-append"></i> </a>';
                         
                         return $btn;   
                     })
@@ -35,7 +39,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $roles = Role::pluck('name','name')->all();
+        return view('users.create',compact('roles'));
     }
 
     /**
@@ -46,7 +51,12 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|same:confrim-password',
+            'roles' => 'required'
+        ]);
     }
 
     /**
