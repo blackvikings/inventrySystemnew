@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\RolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::group(['prefix' => 'admin'], function(){
 		});
 		Route::resource('categories', CategoryController::class);
 		Route::resource('users', UserController::class);
+		Route::resource('roles', RolesController::class);
 		Route::get('/home', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('home');
 	});
 });
